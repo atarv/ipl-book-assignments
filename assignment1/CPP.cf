@@ -15,7 +15,7 @@ DStruct.    Def ::= StructDeclaration ";" ;
 Body.   FunBody ::= "{" [Stmt] "}" ;
 NoBody. FunBody ::= ";" ;
 
-TypeDef. TypeDefinition ::= "typedef" QualifiedId [Id] ;
+TypeDef. TypeDefinition ::= "typedef" Type [Id] ;
 
 ArgType.  Arg ::= Type ;
 ArgDecl.  Arg ::= Type Id ;
@@ -29,16 +29,16 @@ SBlock.   Stmt  ::= "{" [Stmt] "}" ;
 SIf.      Stmt  ::= "if" "(" Exp ")" Stmt ;
 SIfElse.  Stmt  ::= "if" "(" Exp ")" Stmt "else" Stmt ;
 SThrow.   Stmt  ::= "throw" Exp ";" ;
-SFor.     Stmt  ::= "for" "(" ForInit ";" ForExp ";" ForExp ")" Stmt ;
+SFor.     Stmt  ::= "for" "(" ForInitialize ";" ForExpression ";" ForExpression ")" Stmt ;
 SDoWhile. Stmt  ::= "do" Stmt "while" "(" Exp ")" ";" ;
 SStruct.  Stmt  ::= StructDeclaration ";";
 STypeDef. Stmt  ::= TypeDefinition ";" ;
 
-NoForInit.   ForInit ::= "" ;
-ForInit.     ForInit ::= PrimaryExp ;
+NoForInit.   ForInitialize ::= "" ;
+ForInit.     ForInitialize ::= PrimaryExp ;
 
-NoForExp. ForExp ::= "" ;
-ForExp. ForExp ::= Exp ;
+NoForExp. ForExpression ::= "" ;
+ForExp. ForExpression ::= Exp ;
 
 PrimExp.   PrimaryExp ::= Exp ;
 PrimDec.   PrimaryExp ::= VarDeclaration ;
@@ -104,11 +104,19 @@ LitStringCat. StringLiteral ::= String StringLiteral ;
 MemId.   Member ::= QualifiedId ;
 MemCall. Member ::= QualifiedId "(" [Exp] ")" ;
 
-TId.       Type  ::= QualifiedId;
-TConstId.  Type  ::= "const" QualifiedId;
-TRef.      Type  ::= QualifiedId "&" ;
-TConstRef. Type  ::= "const" QualifiedId "&" ;
-TConstRef. Type  ::= QualifiedId "const" "&";
+TId.       Type ::= TypeId;
+TConstId.  Type ::= "const" TypeId;
+TRef.      Type ::= TypeId "&" ;
+TConstRef. Type ::= "const" TypeId "&" ;
+
+TIdPrim.      TypeId ::= PrimitiveType ;
+TIdQualifiedCons. TypeId ::= QualifiedId "::" PrimitiveType ;
+TIdQualified. TypeId ::= QualifiedId ;
+
+PTbool.   PrimitiveType ::= "bool" ;
+PTint.    PrimitiveType ::= "int" ;
+PTdouble. PrimitiveType ::= "double" ;
+PTvoid.   PrimitiveType ::= "void" ;
 
 QIdCons.      QualifiedId ::= QualifiedId "::" QualifiedId ;
 QId.          QualifiedId ::= Id ;
