@@ -1,0 +1,124 @@
+PDefs. Program ::= [Def] ;
+terminator Def "" ;
+
+comment "//" ;
+comment "/*" "*/";
+comment "#" ; -- Ignore preprocessor directives
+
+DFun.       Def ::= Type Id "(" [Arg] ")" FunBody ; 
+DInlineFun. Def ::= "inline" Type Id "(" [Arg] ")" FunBody ; 
+DType.      Def ::= TypeDefinition ";" ;
+DUsing.     Def ::= "using" QualifiedId ";" ;
+DVar.       Def ::= VarDeclaration ";" ;
+DStruct.    Def ::= StructDeclaration ";" ;
+
+Body.   FunBody ::= "{" [Stmt] "}" ;
+NoBody. FunBody ::= ";" ;
+
+TypeDef. TypeDefinition ::= "typedef" QualifiedId [Id] ;
+
+ArgType.  Arg ::= Type ;
+ArgDecl.  Arg ::= Type Id ;
+ArgInit.  Arg ::= Type Id "=" Exp ;
+
+SEmpty.   Stmt  ::= ";" ;
+SExp.     Stmt  ::= PrimaryExp ";" ;
+SReturn.  Stmt  ::= "return" Exp ";" ;
+SWhile.   Stmt  ::= "while" "(" Exp ")" Stmt ;
+SBlock.   Stmt  ::= "{" [Stmt] "}" ;
+SIf.      Stmt  ::= "if" "(" Exp ")" Stmt ;
+SIfElse.  Stmt  ::= "if" "(" Exp ")" Stmt "else" Stmt ;
+SThrow.   Stmt  ::= "throw" Exp ";" ;
+SFor.     Stmt  ::= "for" "(" ForInit ";" ForExp ";" ForExp ")" Stmt ;
+SDoWhile. Stmt  ::= "do" Stmt "while" "(" Exp ")" ";" ;
+SStruct.  Stmt  ::= StructDeclaration ";";
+STypeDef. Stmt  ::= TypeDefinition ";" ;
+
+NoForInit.   ForInit ::= "" ;
+ForInit.     ForInit ::= PrimaryExp ;
+
+NoForExp. ForExp ::= "" ;
+ForExp. ForExp ::= Exp ;
+
+PrimExp.   PrimaryExp ::= Exp ;
+PrimDec.   PrimaryExp ::= VarDeclaration ;
+
+VarDecl.  VarDeclaration ::= Type Id ;
+VarDecls. VarDeclaration ::= Type Id "," [Id] ;
+VarInit.  VarDeclaration ::= Type Id "=" Exp ;
+
+StructDecl. StructDeclaration ::= "struct" Id "{" [StructMember] "}" ;
+StructMem.  StructMember ::= Type Id ";" ;
+
+EInt.       Exp15 ::= Integer ;
+EDouble.    Exp15 ::= Double ;
+EString.    Exp15 ::= StringLiteral ;
+EChar.      Exp15 ::= Char ;
+ETrue.      Exp15 ::= "true" ;
+EFalse.     Exp15 ::= "false" ;
+EId.        Exp15 ::= QualifiedId ;
+ECall.      Exp15 ::= Exp15 "(" [Exp] ")" ;
+EMember.    Exp15 ::= Exp15 "." Member ;
+EArrow.     Exp15 ::= Exp15 "->" Member ;
+EIndex.     Exp15 ::= Exp15 "[" Exp "]" ;
+EDeref.     Exp15 ::= "*" Exp15 ;
+
+EPIncr.     Exp14 ::= Exp15 "++" ;
+EPDecr.     Exp14 ::= Exp15 "--" ;
+ENot.       Exp14 ::= "!" Exp15 ;
+
+EIncr.      Exp13 ::= "++" Exp14 ;
+EDecr.      Exp13 ::= "--" Exp14 ;
+ENeg.       Exp13 ::= "-" Exp14 ;
+
+EMul.       Exp12 ::= Exp12 "*" Exp13 ;
+EDiv.       Exp12 ::= Exp12 "/" Exp13 ;
+EMod.       Exp12 ::= Exp12 "%" Exp13 ;
+EAdd.       Exp11 ::= Exp11 "+" Exp12 ;
+ESub.       Exp11 ::= Exp11 "-" Exp12 ;
+ELShift.    Exp10 ::= Exp10 "<<" Exp11 ;
+ERShift.    Exp10 ::= Exp10 ">>" Exp11 ;
+
+ELt.        Exp9  ::= Exp9 "<" Exp10 ;
+EGt.        Exp9  ::= Exp9 ">" Exp10 ;
+ELEq.       Exp9  ::= Exp9 "<=" Exp10 ;
+EGEq.       Exp9  ::= Exp9 ">=" Exp10 ;
+EEq.        Exp9  ::= Exp9 "==" Exp10 ;
+ENEq.       Exp9  ::= Exp9 "!=" Exp10 ;
+
+EAnd.       Exp4  ::= Exp4 "&&" Exp5 ;
+EOr.        Exp3  ::= Exp3 "||" Exp4 ;
+
+ECond.      Exp2  ::= Exp3 "?" Exp3 ":" Exp2 ; -- Ternary operator
+EAssign.    Exp2  ::= Exp3 "=" Exp2 ;
+
+-- Compound assignments
+ECAAdd.     Exp2  ::= Exp3 "+=" Exp2 ;
+ECASub.     Exp2  ::= Exp3 "-=" Exp2 ;
+
+coercions Exp 15 ;
+
+LitString.    StringLiteral ::= String ;
+LitStringCat. StringLiteral ::= String StringLiteral ;
+
+MemId.   Member ::= QualifiedId ;
+MemCall. Member ::= QualifiedId "(" [Exp] ")" ;
+
+TId.       Type  ::= QualifiedId;
+TConstId.  Type  ::= "const" QualifiedId;
+TRef.      Type  ::= QualifiedId "&" ;
+TConstRef. Type  ::= "const" QualifiedId "&" ;
+TConstRef. Type  ::= QualifiedId "const" "&";
+
+QIdCons.      QualifiedId ::= QualifiedId "::" QualifiedId ;
+QId.          QualifiedId ::= Id ;
+QIdTemplated. QualifiedId ::= Id "<" [Type] ">" ;
+
+separator Exp  "," ;
+separator Arg  "," ;
+separator Stmt ""  ;
+separator StructMember "" ;
+separator nonempty Id   "," ;
+separator nonempty Type "," ;
+
+position token Id (letter (letter | digit | '_')*) ;
