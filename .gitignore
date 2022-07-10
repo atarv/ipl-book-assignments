@@ -2,3 +2,9 @@ assignment1/*
 !assignment1/*.cf
 !assignment1/*.md
 !assignment1/*.sh
+assignment2/*
+!assignment2/*.cf
+!assignment2/*.md
+!assignment2/*.sh
+!assignment2/TypeChecker.hs
+!assignment2/Main.hs
