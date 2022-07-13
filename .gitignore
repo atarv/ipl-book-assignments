@@ -1,3 +1,4 @@
+.vscode
 assignment1/*
 !assignment1/*.cf
 !assignment1/*.md
@@ -8,3 +9,10 @@ assignment2/*
 !assignment2/*.sh
 !assignment2/TypeChecker.hs
 !assignment2/Main.hs
+assignment3/*
+!assignment3/*.cf
+!assignment3/*.md
+!assignment3/*.sh
+!assignment3/TypeChecker.hs
+!assignment3/Interpreter.hs
+!assignment3/Main.hs
