@@ -16,3 +16,11 @@ assignment3/*
 !assignment3/TypeChecker.hs
 !assignment3/Interpreter.hs
 !assignment3/Main.hs
+assignment4/**
+!assignment4/Makefile
+!assignment4/CPP.cf
+!assignment4/CodeGen.hs
+!assignemnt4/TypeChecker.hs
+!assignment4/Main.hs
+!assignment4/build.sh
+!assignment4/README.md
