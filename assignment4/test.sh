@@ -14,7 +14,7 @@ ok () {
     colorecho 2 "$*"
 }
 
-TESTSUITE_PATH="$1"
+TESTSUITE_PATH="${1-}"
 
 if [ -z "$TESTSUITE_PATH" ]
 then
