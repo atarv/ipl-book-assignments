@@ -25,3 +25,10 @@ assignment4/**
 !assignment4/README.md
 !assignment4/Runtime.java
 !assignment4/test.sh
+assignment5/**
+!assignment5/Fun.cf
+!assignment5/Main.hs
+!assignment5/Interpreter.hs
+!assignment5/build.sh
+!assignment5/test.sh
+!assignment5/README.md
